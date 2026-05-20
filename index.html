@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1207">
+<title>ספריית הבית 📚</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2;
+  --bg2: #f2ece0;
+  --surface: #ffffff;
+  --surface2: #fdf9f3;
+  --border: #e8dcc8;
+  --border2: #d4c5a9;
+  --text: #1a1207;
+  --text2: #6b5a3e;
+  --text3: #9c8a6e;
+  --accent: #b5421a;
+  --accent2: #8a2f0f;
+  --gold: #c9932a;
+  --gold2: #a67520;
+  --green: #2d7a4f;
+  --green2: #1f5a38;
+  --blue: #1a5fa8;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 16px rgba(26,18,7,0.1);
+  --shadow-lg: 0 8px 40px rgba(26,18,7,0.15);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  direction: rtl;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--text);
+  padding: 16px 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #f0e8d8;
+  letter-spacing: 0.02em;
+}
+.logo-sub {
+  font-size: 0.7rem;
+  color: var(--text3);
+  font-weight: 400;
+  display: block;
+  letter-spacing: 0.04em;
+}
+.header-actions { display:flex; gap:8px; }
+.btn-icon {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #f0e8d8;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items:center; justify-content:center;
+  transition: all 0.2s;
+}
+.btn-icon:hover { background: rgba(255,255,255,0.2); }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display:none; }
+.tab {
+  padding: 10px 16px;
+  font-family:'Heebo',sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(240,232,216,0.5);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tab.active { color: #f0e8d8; border-bottom-color: var(--gold); }
+.tab .badge-count {
+  background: var(--accent);
+  color: white;
+  font-size: 0.65rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ── MAIN ── */
+.main { padding: 20px 16px; max-width: 860px; margin: 0 auto; }
+.page { display:none; }
+.page.active { display:block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── SECTION TITLE ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--text);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.card-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── STATS ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+@media(min-width:480px){ .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 3px;
+}
+.stat-card.c1::before { background: var(--accent); }
+.stat-card.c2::before { background: var(--gold); }
+.stat-card.c3::before { background: var(--green); }
+.stat-card.c4::before { background: var(--blue); }
+.stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card.c1 .stat-num { color: var(--accent); }
+.stat-card.c2 .stat-num { color: var(--gold); }
+.stat-card.c3 .stat-num { color: var(--green); }
+.stat-card.c4 .stat-num { color: var(--blue); }
+.stat-label { font-size: 0.72rem; color: var(--text2); font-weight: 500; }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(181,66,26,0.3); }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: var(--gold2); }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: var(--green2); }
+.btn-ghost { background: transparent; color: var(--text2); border: 1.5px solid var(--border2); }
+.btn-ghost:hover { border-color: var(--text2); color: var(--text); }
+.btn-danger { background: rgba(181,66,26,0.08); color: var(--accent); border: 1px solid rgba(181,66,26,0.2); }
+.btn-danger:hover { background: rgba(181,66,26,0.15); }
+.btn-wa { background: #25d366; color: #fff; }
+.btn-wa:hover { background: #1ebe5d; }
+.btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+.btn-full { width: 100%; justify-content: center; }
+
+/* ── FORM ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:560px){ .form-grid { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1/-1; }
+label { font-size: 0.78rem; font-weight: 600; color: var(--text2); }
+input, select, textarea {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.9rem;
+  direction: rtl;
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,147,42,0.12);
+}
+input::placeholder { color: var(--text3); }
+
+/* ── SEARCH BAR ── */
+.search-row { display:flex; gap:8px; margin-bottom:14px; }
+.search-row input { flex:1; }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width:100%; border-collapse:collapse; }
+th,td { padding:11px 14px; text-align:right; font-size:0.83rem; border-bottom:1px solid var(--border); }
+th { font-size:0.72rem; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; background:var(--bg2); white-space:nowrap; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background: rgba(201,147,42,0.04); }
+.td-actions { display:flex; gap:5px; flex-wrap:wrap; }
+
+/* ── BADGES ── */
+.badge {
+  display:inline-flex; align-items:center; gap:3px;
+  padding: 3px 9px; border-radius:20px;
+  font-size:0.72rem; font-weight:700;
+}
+.badge-active { background:rgba(45,122,79,0.12); color:var(--green); }
+.badge-overdue { background:rgba(181,66,26,0.12); color:var(--accent); }
+.badge-warn { background:rgba(201,147,42,0.12); color:var(--gold); }
+.badge-ret { background:rgba(26,95,168,0.1); color:var(--blue); }
+
+/* ── MODAL ── */
+.overlay {
+  position:fixed; inset:0;
+  background:rgba(26,18,7,0.6);
+  backdrop-filter:blur(4px);
+  z-index:300;
+  display:flex; align-items:center; justify-content:center;
+  padding:16px;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.2s;
+}
+.overlay.open { opacity:1; pointer-events:all; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 92vh;
+  overflow-y: auto;
+  transform:translateY(16px);
+  transition:transform 0.25s;
+  box-shadow: var(--shadow-lg);
+}
+.overlay.open .modal { transform:translateY(0); }
+.modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+.modal-title { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--text); }
+.modal-close { background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--text3); padding:4px; line-height:1; }
+.modal-close:hover { color:var(--accent); }
+
+/* ── PHOTO UPLOAD ── */
+.photo-zone {
+  border: 2px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg2);
+  position: relative;
+}
+.photo-zone:hover { border-color: var(--gold); background: rgba(201,147,42,0.05); }
+.photo-zone.has-image { padding:0; border:none; }
+.photo-zone img { width:100%; max-height:220px; object-fit:contain; border-radius:10px; }
+.photo-zone-text { font-size:0.85rem; color:var(--text2); margin-top:8px; }
+.photo-zone-icon { font-size:2rem; }
+
+/* AI SCAN RESULT */
+.scan-result {
+  background: rgba(45,122,79,0.08);
+  border: 1px solid rgba(45,122,79,0.2);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-top: 12px;
+  display:none;
+}
+.scan-result.visible { display:block; }
+.scan-result-title { font-size:0.75rem; font-weight:700; color:var(--green); margin-bottom:8px; display:flex; gap:6px; align-items:center; }
+
+.scanning-indicator {
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  background: rgba(201,147,42,0.08);
+  border: 1px solid rgba(201,147,42,0.2);
+  border-radius:var(--radius-sm);
+  margin-top:12px;
+  font-size:0.85rem;
+  color:var(--gold2);
+}
+.scanning-indicator.visible { display:flex; }
+.spin { animation: spin 1s linear infinite; display:inline-block; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* MULTI-BOOK LIST */
+.book-items-list { display:flex; flex-direction:column; gap:10px; margin-bottom:12px; }
+.book-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.book-item-info { flex:1; font-size:0.85rem; }
+.book-item-title { font-weight:700; color:var(--text); }
+.book-item-author { color:var(--text2); font-size:0.78rem; }
+.book-item-thumb { width:44px; height:54px; object-fit:cover; border-radius:4px; flex-shrink:0; }
+.book-item-remove { background:none; border:none; color:var(--text3); cursor:pointer; font-size:1rem; padding:4px; }
+.book-item-remove:hover { color:var(--accent); }
+
+/* LOAN CARD (list view) */
+.loan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom:10px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s;
+}
+.loan-card:hover { box-shadow: var(--shadow-lg); }
+.loan-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.loan-borrower { font-weight:700; font-size:0.95rem; }
+.loan-date { font-size:0.75rem; color:var(--text3); }
+.loan-books { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.loan-book-tag {
+  display:flex; align-items:center; gap:5px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size:0.78rem;
+  color:var(--text);
+}
+.loan-book-tag img { width:24px; height:30px; object-fit:cover; border-radius:2px; }
+.loan-card-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+/* OVERDUE CARD */
+.overdue-card {
+  background: rgba(181,66,26,0.05);
+  border: 1px solid rgba(181,66,26,0.2);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.overdue-info { flex:1; min-width:150px; }
+.overdue-name { font-weight:700; font-size:0.9rem; margin-bottom:2px; }
+.overdue-detail { font-size:0.78rem; color:var(--text2); }
+
+/* NOTIF LOG */
+.notif-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px;
+  background:var(--bg2);
+  border-radius:8px;
+  margin-bottom:8px;
+  font-size:0.83rem;
+}
+.notif-dot { width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; }
+.notif-text { flex:1; }
+.notif-time { color:var(--text3); font-size:0.72rem; white-space:nowrap; }
+
+/* CONFIG SECTION */
+.config-box {
+  background: rgba(201,147,42,0.06);
+  border: 1px solid rgba(201,147,42,0.25);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom:14px;
+}
+.config-box-title { font-weight:700; font-size:0.88rem; color:var(--gold2); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.status-line { display:flex; align-items:center; gap:8px; font-size:0.8rem; margin-top:10px; color:var(--text2); }
+.dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.dot-ok { background:var(--green); }
+.dot-no { background:var(--accent); }
+.dot-wait { background:var(--gold); animation:blink 1.2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* EMPTY STATE */
+.empty { text-align:center; padding:40px 20px; color:var(--text3); }
+.empty .ei { font-size:2.8rem; margin-bottom:10px; }
+.empty p { font-size:0.88rem; }
+
+/* REMINDER SCHEDULE BADGE */
+.sched-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:0.72rem; font-weight:700;
+  background:rgba(26,95,168,0.1); color:var(--blue);
+}
+
+/* WEEK selector chips */
+.chips { display:flex; flex-wrap:wrap; gap:6px; }
+.chip {
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:600;
+  cursor:pointer;
+  border:1.5px solid var(--border2);
+  background:var(--bg2);
+  color:var(--text2);
+  transition:all 0.15s;
+}
+.chip.sel { background:var(--gold); border-color:var(--gold); color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      <span class="logo-icon">📚</span>
+      <div>
+        <div class="logo-text">ספריית הבית</div>
+        <span class="logo-sub" id="fbStatusBadge">⚡ לא מחובר</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="openModal('loanModal')" title="השאלה חדשה">＋</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="nav('dashboard',this)">🏠 ראשי</button>
+    <button class="tab" onclick="nav('loans',this)">📖 השאלות <span class="badge-count" id="activeBadge">0</span></button>
+    <button class="tab" onclick="nav('books',this)">📚 ספרים</button>
+    <button class="tab" onclick="nav('people',this)">👤 אנשים</button>
+    <button class="tab" onclick="nav('reminders',this)">🔔 תזכורות <span class="badge-count" id="overdBadge">0</span></button>
+    <button class="tab" onclick="nav('settings',this)">⚙️ הגדרות</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page active" id="page-dashboard">
+  <div class="stats-grid">
+    <div class="stat-card c1"><div class="stat-num" id="s-active">0</div><div class="stat-label">השאלות פעילות</div></div>
+    <div class="stat-card c2"><div class="stat-num" id="s-overdue">0</div><div class="stat-label">באיחור</div></div>
+    <div class="stat-card c3"><div class="stat-num" id="s-books">0</div><div class="stat-label">ספרים בקטלוג</div></div>
+    <div class="stat-card c4"><div class="stat-num" id="s-notifs">0</div><div class="stat-label">הודעות נשלחו</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🔴 דורשים תזכורת עכשיו</div>
+    <div id="db-overdue"><div class="empty"><div class="ei">✅</div><p>אין השאלות שעברו את הזמן</p></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">📖 השאלות פעילות</div>
+    <div id="db-recent"><div class="empty"><div class="ei">📚</div><p>אין השאלות פעילות</p></div></div>
+  </div>
+</div>
+
+<!-- ═══ LOANS ═══ -->
+<div class="page" id="page-loans">
+  <div class="section-header">
+    <div class="section-title">ניהול השאלות</div>
+    <button class="btn btn-primary" onclick="openModal('loanModal')">+ חדש</button>
+  </div>
+  <div class="search-row">
+    <input type="text" id="loanQ" placeholder="חיפוש לפי שם..." oninput="renderLoans()">
+    <select id="loanF" onchange="renderLoans()">
+      <option value="all">הכל</option>
+      <option value="active">פעיל</option>
+      <option value="overdue">באיחור</option>
+      <option value="returned">הוחזר</option>
+    </select>
+  </div>
+  <div id="loansList"></div>
+</div>
+
+<!-- ═══ BOOKS ═══ -->
+<div class="page" id="page-books">
+  <div class="section-header">
+    <div class="section-title">קטלוג ספרים</div>
+    <button class="btn btn-primary" onclick="openModal('bookModal')">+ ספר</button>
+  </div>
+  <div class="search-row">
+    <input type="text" id="bookQ" placeholder="חיפוש ספר..." oninput="renderBooks()">
+    <select id="bookCat" onchange="renderBooks()">
+      <option value="all">כל הקטגוריות</option>
+      <option value="ילדים">ילדים</option>
+      <option value="מבוגרים">מבוגרים</option>
+      <option value="עיון">עיון</option>
+      <option value="בדיה">בדיה</option>
+      <option value="אחר">אחר</option>
+    </select>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>שם הספר</th><th>סופר</th><th>קטגוריה</th><th>עותקים</th><th>זמין</th><th></th></tr></thead>
+        <tbody id="booksTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PEOPLE ═══ -->
+<div class="page" id="page-people">
+  <div class="section-header">
+    <div class="section-title">אנשים ושואלים</div>
+    <button class="btn btn-primary" onclick="openModal('personModal')">+ הוסף</button>
+  </div>
+  <div class="search-row">
+    <input type="text" id="personQ" placeholder="חיפוש..." oninput="renderPeople()">
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>שם</th><th>טלפון</th><th>פעילות</th><th>סה"כ</th><th>הודעות</th><th></th></tr></thead>
+        <tbody id="peopleTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REMINDERS ═══ -->
+<div class="page" id="page-reminders">
+  <div class="card">
+    <div class="card-label">⏰ ממתינים לתזכורת</div>
+    <div id="remList"><div class="empty"><div class="ei">🎉</div><p>אין תזכורות ממתינות</p></div></div>
+  </div>
+  <div class="card">
+    <div class="card-label">📋 יומן שליחת הודעות</div>
+    <div id="notifLog"><div class="empty"><p>לא נשלחו הודעות עדיין</p></div></div>
+  </div>
+</div>
+
+<!-- ═══ SETTINGS ═══ -->
+<div class="page" id="page-settings">
+  <!-- Firebase -->
+  <div class="config-box">
+    <div class="config-box-title">🔥 חיבור Firebase (סנכרון בין טלפונים)</div>
+    <p style="font-size:0.8rem;color:var(--text2);margin-bottom:14px;">צור פרויקט חינמי ב-<a href="https://console.firebase.google.com" target="_blank" style="color:var(--gold2)">console.firebase.google.com</a>, הפעל Firestore, והדבק את הפרטים:</p>
+    <div class="form-grid">
+      <div class="form-group full"><label>API Key</label><input id="fb-key" placeholder="AIzaSy..." dir="ltr"></div>
+      <div class="form-group"><label>Auth Domain</label><input id="fb-domain" placeholder="xxx.firebaseapp.com" dir="ltr"></div>
+      <div class="form-group"><label>Project ID</label><input id="fb-project" placeholder="my-library-app" dir="ltr"></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+      <button class="btn btn-gold" onclick="connectFirebase()">🔌 התחבר</button>
+      <button class="btn btn-ghost" onclick="localMode()">💾 מצב מקומי</button>
+    </div>
+    <div class="status-line" id="fbStatusLine"><div class="dot dot-wait"></div><span>ממתין לחיבור</span></div>
+  </div>
+
+  <!-- Claude AI -->
+  <div class="config-box">
+    <div class="config-box-title">🤖 Claude AI – זיהוי ספרים מצילום</div>
+    <p style="font-size:0.8rem;color:var(--text2);margin-bottom:12px;">הזן את מפתח ה-API שלך מ-<a href="https://console.anthropic.com" target="_blank" style="color:var(--gold2)">console.anthropic.com</a>:</p>
+    <div class="form-group">
+      <label>Anthropic API Key</label>
+      <input id="ai-key" type="password" placeholder="sk-ant-..." dir="ltr">
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="saveAIKey()">💾 שמור</button>
+    <div class="status-line" id="aiStatus"><div class="dot dot-no"></div><span>לא הוגדר</span></div>
+  </div>
+
+  <!-- Reminder settings -->
+  <div class="card">
+    <div class="card-label">🔔 הגדרות תזכורות</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>שלח תזכורת ראשונה אחרי (ימים)</label>
+        <input type="number" id="set-days" value="30" min="1" max="365">
+      </div>
+      <div class="form-group">
+        <label>שלח תזכורות חוזרות כל (ימים)</label>
+        <input type="number" id="set-repeat" value="7" min="1" max="30">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:12px;">
+      <label>תבנית הודעה</label>
+      <textarea id="set-tmpl" rows="4" style="resize:vertical;">שלום {שם}! 😊
+ההשאלה של "{ספרים}" היא כבר {ימים} ימים.
+נשמח אם תוחזר בקרוב 📚
+תודה!</textarea>
+    </div>
+    <button class="btn btn-primary" style="margin-top:12px;" onclick="saveSettings()">💾 שמור הגדרות</button>
+  </div>
+
+  <!-- Export -->
+  <div class="card">
+    <div class="card-label">📤 ייצוא</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="exportCSV()">⬇ CSV</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">⬇ JSON</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- NEW LOAN MODAL -->
+<div class="overlay" id="loanModal">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title">📖 רישום השאלה חדשה</div>
+    <button class="modal-close" onclick="closeModal('loanModal')">×</button>
+  </div>
+
+  <!-- Step 1: Borrower -->
+  <div class="form-group" style="margin-bottom:14px;">
+    <label>שואל</label>
+    <select id="ln-person">
+      <option value="">בחר שואל...</option>
+    </select>
+    <button class="btn btn-ghost btn-sm" style="margin-top:6px;align-self:flex-start;" onclick="closeModal('loanModal');openModal('personModal')">+ שואל חדש</button>
+  </div>
+
+  <div class="form-group" style="margin-bottom:16px;">
+    <label>תאריך השאלה</label>
+    <input type="date" id="ln-date">
+  </div>
+
+  <!-- Book list being built -->
+  <div class="card-label" style="margin-bottom:8px;">📚 ספרים להשאלה</div>
+  <div class="book-items-list" id="lnBooksList"></div>
+
+  <!-- Add book to loan -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;">
+    <div class="card-label" style="margin-bottom:10px;">➕ הוסף ספר</div>
+
+    <!-- Photo upload zone -->
+    <label style="cursor:pointer;">
+      <div class="photo-zone" id="photoZone" onclick="this.querySelector('input').click()">
+        <input type="file" accept="image/*" capture="environment" style="display:none" id="photoInput" onchange="handlePhoto(event)">
+        <div id="photoPlaceholder">
+          <div class="photo-zone-icon">📷</div>
+          <div class="photo-zone-text">צלם / בחר תמונה של הספר<br><small style="color:var(--text3)">Claude AI יזהה שם וסופר אוטומטית</small></div>
+        </div>
+        <img id="photoPreview" style="display:none;width:100%;max-height:180px;object-fit:contain;border-radius:10px;">
+      </div>
+    </label>
+
+    <div class="scanning-indicator" id="scanningInd">
+      <span class="spin">⟳</span>
+      <span>מנתח את הצילום עם Claude AI...</span>
+    </div>
+
+    <div class="scan-result" id="scanResult">
+      <div class="scan-result-title">✨ זוהה אוטומטית:</div>
+      <div id="scanResultText"></div>
+    </div>
+
+    <div class="form-grid" style="margin-top:12px;">
+      <div class="form-group full">
+        <label>שם הספר *</label>
+        <input id="add-title" placeholder="שם הספר">
+      </div>
+      <div class="form-group full">
+        <label>שם הסופר</label>
+        <input id="add-author" placeholder="שם הסופר">
+      </div>
+      <div class="form-group">
+        <label>קטגוריה</label>
+        <select id="add-cat">
+          <option>ילדים</option><option>מבוגרים</option><option>עיון</option><option>בדיה</option><option>אחר</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-gold btn-full" style="margin-top:10px;" onclick="addBookToLoan()">+ הוסף ספר זה</button>
+  </div>
+
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+    <button class="btn btn-ghost" onclick="closeModal('loanModal')">ביטול</button>
+    <button class="btn btn-primary" onclick="saveLoan()">✔ שמור השאלה</button>
+  </div>
+</div>
+</div>
+
+<!-- PERSON MODAL -->
+<div class="overlay" id="personModal">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title">👤 הוסף שואל</div>
+    <button class="modal-close" onclick="closeModal('personModal')">×</button>
+  </div>
+  <div class="form-grid">
+    <div class="form-group full"><label>שם מלא *</label><input id="p-name" placeholder="שם מלא"></div>
+    <div class="form-group full"><label>טלפון (לוואטסאפ) *</label><input id="p-phone" placeholder="05X-XXXXXXX" dir="ltr" type="tel"></div>
+    <div class="form-group full"><label>הערות</label><input id="p-notes" placeholder="אופציונלי"></div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+    <button class="btn btn-ghost" onclick="closeModal('personModal')">ביטול</button>
+    <button class="btn btn-primary" onclick="savePerson()">✔ הוסף</button>
+  </div>
+</div>
+</div>
+
+<!-- BOOK MODAL (catalog) -->
+<div class="overlay" id="bookModal">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title">📚 ספר חדש בקטלוג</div>
+    <button class="modal-close" onclick="closeModal('bookModal')">×</button>
+  </div>
+  <div class="form-grid">
+    <div class="form-group full"><label>שם הספר *</label><input id="bk-title" placeholder="שם הספר"></div>
+    <div class="form-group full"><label>סופר *</label><input id="bk-author" placeholder="שם הסופר"></div>
+    <div class="form-group"><label>קטגוריה</label>
+      <select id="bk-cat"><option>ילדים</option><option>מבוגרים</option><option>עיון</option><option>בדיה</option><option>אחר</option></select>
+    </div>
+    <div class="form-group"><label>עותקים</label><input id="bk-copies" type="number" value="1" min="1"></div>
+    <div class="form-group full"><label>הערות</label><input id="bk-notes" placeholder="אופציונלי"></div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+    <button class="btn btn-ghost" onclick="closeModal('bookModal')">ביטול</button>
+    <button class="btn btn-primary" onclick="saveCatalogBook()">✔ הוסף לקטלוג</button>
+  </div>
+</div>
+</div>
+
+<!-- RETURN MODAL -->
+<div class="overlay" id="returnModal">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title">✅ החזרת ספרים</div>
+    <button class="modal-close" onclick="closeModal('returnModal')">×</button>
+  </div>
+  <div id="returnBody"></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+    <button class="btn btn-ghost" onclick="closeModal('returnModal')">ביטול</button>
+    <button class="btn btn-green" onclick="doReturn()">✔ אשר החזרה</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let DB = {
+  people: [],       // {id, name, phone, notes, addedAt}
+  books: [],        // {id, title, author, category, copies, notes}
+  loans: [],        /* {id, personId, date, status:'active'|'returned',
+                        returnDate, items:[{title,author,category,photoB64}],
+                        remindersStop:false, remindersSent:0, lastReminderAt} */
+  notifications: [], // {id, loanId, personName, books, sentAt, type}
+  settings: { firstDays:30, repeatDays:7, tmpl:'שלום {שם}! 😊\nההשאלה של "{ספרים}" היא כבר {ימים} ימים.\nנשמח אם תוחזר בקרוב 📚\nתודה!' }
+};
+let loanItems = []; // temp while building new loan
+let returnLoanId = null;
+let aiKey = '';
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+function init(){
+  loadLocal();
+  document.getElementById('ln-date').value = todayStr();
+  document.getElementById('set-days').value = DB.settings.firstDays;
+  document.getElementById('set-repeat').value = DB.settings.repeatDays;
+  document.getElementById('set-tmpl').value = DB.settings.tmpl;
+  aiKey = localStorage.getItem('lib_aikey')||'';
+  if(aiKey){ document.getElementById('ai-key').value='sk-ant-...saved...'; setAIStatus(true); }
+  renderAll();
+}
+
+function loadLocal(){
+  try{
+    const raw = localStorage.getItem('lib_v2');
+    if(raw){ const p=JSON.parse(raw); Object.assign(DB,p); }
+  }catch(e){}
+}
+function save(){
+  localStorage.setItem('lib_v2', JSON.stringify(DB));
+}
+function todayStr(){ return new Date().toISOString().split('T')[0]; }
+function fmtDate(d){ if(!d)return'—'; return new Date(d).toLocaleDateString('he-IL'); }
+function daysBetween(d){ return Math.floor((Date.now()-new Date(d))/86400000); }
+
+// ══════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════
+function nav(page, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  btn.classList.add('active');
+  if(page==='reminders') renderReminders();
+}
+
+// ══════════════════════════════════════════
+//  MODALS
+// ══════════════════════════════════════════
+function openModal(id){
+  if(id==='loanModal'){ loanItems=[]; renderLoanItems(); populatePersonSelect(); }
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+window.addEventListener('click', e=>{ if(e.target.classList.contains('overlay')) e.target.classList.remove('open'); });
+
+// ══════════════════════════════════════════
+//  PHOTO + AI SCAN
+// ══════════════════════════════════════════
+let currentPhotoB64 = null;
+
+function handlePhoto(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ev => {
+    const dataUrl = ev.target.result;
+    currentPhotoB64 = dataUrl.split(',')[1];
+    // Show preview
+    const prev = document.getElementById('photoPreview');
+    prev.src = dataUrl;
+    prev.style.display='block';
+    document.getElementById('photoPlaceholder').style.display='none';
+
+    if(aiKey){
+      await scanWithClaude(currentPhotoB64);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function scanWithClaude(b64){
+  document.getElementById('scanningInd').classList.add('visible');
+  document.getElementById('scanResult').classList.remove('visible');
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':aiKey,'anthropic-version':'2023-06-01'},
+      body: JSON.stringify({
+        model:'claude-opus-4-5',
+        max_tokens:400,
+        messages:[{
+          role:'user',
+          content:[
+            {type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},
+            {type:'text',text:'זהה את שם הספר ושם הסופר מהתמונה. ענה אך ורק ב-JSON כך: {"title":"שם הספר","author":"שם הסופר"}. אם אינך יכול לזהות, השתמש ב-null.'}
+          ]
+        }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.find(c=>c.type==='text')?.text||'';
+    try{
+      const clean = text.replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(clean);
+      if(parsed.title){ document.getElementById('add-title').value=parsed.title; }
+      if(parsed.author){ document.getElementById('add-author').value=parsed.author||''; }
+      document.getElementById('scanResultText').innerHTML =
+        `<strong>ספר:</strong> ${parsed.title||'לא זוהה'}<br><strong>סופר:</strong> ${parsed.author||'לא זוהה'}`;
+      document.getElementById('scanResult').classList.add('visible');
+    }catch(pe){
+      document.getElementById('scanResultText').innerHTML='לא הצלחתי לפענח תשובה. נא מלא ידנית.';
+      document.getElementById('scanResult').classList.add('visible');
+    }
+  }catch(err){
+    document.getElementById('scanResultText').innerHTML='שגיאה בחיבור ל-Claude AI.';
+    document.getElementById('scanResult').classList.add('visible');
+  }
+  document.getElementById('scanningInd').classList.remove('visible');
+}
+
+// ══════════════════════════════════════════
+//  LOAN BUILDER
+// ══════════════════════════════════════════
+function addBookToLoan(){
+  const title = document.getElementById('add-title').value.trim();
+  if(!title){ alert('נא להזין שם ספר'); return; }
+  loanItems.push({
+    title,
+    author: document.getElementById('add-author').value.trim(),
+    category: document.getElementById('add-cat').value,
+    photoB64: currentPhotoB64
+  });
+  // reset
+  document.getElementById('add-title').value='';
+  document.getElementById('add-author').value='';
+  document.getElementById('photoPreview').style.display='none';
+  document.getElementById('photoPlaceholder').style.display='';
+  document.getElementById('scanResult').classList.remove('visible');
+  document.getElementById('photoInput').value='';
+  currentPhotoB64=null;
+  renderLoanItems();
+}
+
+function renderLoanItems(){
+  const el = document.getElementById('lnBooksList');
+  if(!loanItems.length){ el.innerHTML='<div style="color:var(--text3);font-size:0.82rem;padding:6px 0;">עוד לא נוספו ספרים</div>'; return; }
+  el.innerHTML = loanItems.map((b,i)=>`
+    <div class="book-item">
+      ${b.photoB64?`<img class="book-item-thumb" src="data:image/jpeg;base64,${b.photoB64}">`:'<span style="font-size:1.8rem">📖</span>'}
+      <div class="book-item-info">
+        <div class="book-item-title">${b.title}</div>
+        <div class="book-item-author">${b.author||'סופר לא ידוע'} · ${b.category}</div>
+      </div>
+      <button class="book-item-remove" onclick="removeLoanItem(${i})">🗑</button>
+    </div>`).join('');
+}
+function removeLoanItem(i){ loanItems.splice(i,1); renderLoanItems(); }
+
+function populatePersonSelect(){
+  const sel = document.getElementById('ln-person');
+  sel.innerHTML='<option value="">בחר שואל...</option>'+
+    DB.people.map(p=>`<option value="${p.id}">${p.name} (${p.phone})</option>`).join('');
+}
+
+function saveLoan(){
+  const personId = document.getElementById('ln-person').value;
+  const date = document.getElementById('ln-date').value;
+  if(!personId||!date){ alert('נא לבחור שואל ותאריך'); return; }
+  if(!loanItems.length){ alert('נא להוסיף לפחות ספר אחד'); return; }
+  const loan = {
+    id: Date.now().toString(),
+    personId, date,
+    status:'active',
+    returnDate:null,
+    items:[...loanItems],
+    remindersStop:false,
+    remindersSent:0,
+    lastReminderAt:null
+  };
+  DB.loans.push(loan);
+  // also add books to catalog if not exist
+  loanItems.forEach(b=>{
+    if(!DB.books.find(x=>x.title.trim().toLowerCase()===b.title.trim().toLowerCase())){
+      DB.books.push({id:Date.now().toString()+Math.random(), title:b.title, author:b.author, category:b.category, copies:1, notes:''});
+    }
+  });
+  save();
+  closeModal('loanModal');
+  renderAll();
+}
+
+// ══════════════════════════════════════════
+//  PEOPLE
+// ══════════════════════════════════════════
+function savePerson(){
+  const name = document.getElementById('p-name').value.trim();
+  const phone = document.getElementById('p-phone').value.trim();
+  if(!name||!phone){ alert('נא למלא שם וטלפון'); return; }
+  DB.people.push({id:Date.now().toString(), name, phone, notes:document.getElementById('p-notes').value.trim(), addedAt:new Date().toISOString()});
+  save();
+  closeModal('personModal');
+  ['p-name','p-phone','p-notes'].forEach(id=>document.getElementById(id).value='');
+  renderAll();
+}
+
+function deletePerson(id){
+  if(!confirm('למחוק שואל זה?')) return;
+  DB.people=DB.people.filter(p=>p.id!==id);
+  save(); renderAll();
+}
+
+function renderPeople(){
+  const q=document.getElementById('personQ').value.toLowerCase();
+  const list=DB.people.filter(p=>!q||p.name.toLowerCase().includes(q)||p.phone.includes(q));
+  const el=document.getElementById('peopleTable');
+  if(!list.length){el.innerHTML='<tr><td colspan="6"><div class="empty"><p>אין אנשים</p></div></td></tr>';return;}
+  el.innerHTML=list.map(p=>{
+    const active=DB.loans.filter(l=>l.personId===p.id&&l.status==='active').length;
+    const total=DB.loans.filter(l=>l.personId===p.id).length;
+    const notifs=DB.notifications.filter(n=>n.personId===p.id).length;
+    return`<tr>
+      <td><strong>${p.name}</strong>${p.notes?`<br><small style="color:var(--text3)">${p.notes}</small>`:''}</td>
+      <td dir="ltr">${p.phone}</td>
+      <td>${active?`<span class="badge badge-active">${active}</span>`:'—'}</td>
+      <td>${total}</td>
+      <td>${notifs}</td>
+      <td class="td-actions">
+        <button class="btn btn-ghost btn-sm" onclick="sendWA('${p.id}','','',0)">📱</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePerson('${p.id}')">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  BOOKS CATALOG
+// ══════════════════════════════════════════
+function saveCatalogBook(){
+  const title=document.getElementById('bk-title').value.trim();
+  const author=document.getElementById('bk-author').value.trim();
+  if(!title||!author){alert('נא למלא שם וסופר');return;}
+  DB.books.push({id:Date.now().toString(),title,author,category:document.getElementById('bk-cat').value,copies:parseInt(document.getElementById('bk-copies').value)||1,notes:document.getElementById('bk-notes').value.trim()});
+  save(); closeModal('bookModal');
+  ['bk-title','bk-author','bk-notes'].forEach(id=>document.getElementById(id).value='');
+  renderAll();
+}
+function deleteBook(id){ if(!confirm('למחוק?'))return; DB.books=DB.books.filter(b=>b.id!==id); save();renderAll(); }
+
+function renderBooks(){
+  const q=document.getElementById('bookQ').value.toLowerCase();
+  const cat=document.getElementById('bookCat').value;
+  const list=DB.books.filter(b=>(cat==='all'||b.category===cat)&&(!q||b.title.toLowerCase().includes(q)||b.author.toLowerCase().includes(q)));
+  const el=document.getElementById('booksTable');
+  if(!list.length){el.innerHTML='<tr><td colspan="6"><div class="empty"><p>אין ספרים</p></div></td></tr>';return;}
+  el.innerHTML=list.map(b=>{
+    const out=DB.loans.filter(l=>l.status==='active'&&l.items.some(i=>i.title===b.title)).length;
+    const avail=Math.max(0,b.copies-out);
+    return`<tr>
+      <td><strong>${b.title}</strong></td>
+      <td>${b.author}</td>
+      <td><span class="badge badge-ret">${b.category}</span></td>
+      <td>${b.copies}</td>
+      <td><span class="badge ${avail>0?'badge-active':'badge-overdue'}">${avail>0?avail+' זמין':'מושאל'}</span></td>
+      <td class="td-actions"><button class="btn btn-danger btn-sm" onclick="deleteBook('${b.id}')">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  LOANS
+// ══════════════════════════════════════════
+function getLoanDays(l){ return daysBetween(l.date); }
+function isOverdue(l){ return l.status==='active'&&getLoanDays(l)>=(DB.settings.firstDays||30); }
+function needsWeeklyReminder(l){
+  if(!isOverdue(l)||l.remindersStop) return false;
+  if(!l.lastReminderAt) return true;
+  return daysBetween(l.lastReminderAt)>=(DB.settings.repeatDays||7);
+}
+
+function renderLoans(){
+  const q=document.getElementById('loanQ').value.toLowerCase();
+  const f=document.getElementById('loanF').value;
+  let list=[...DB.loans].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  list=list.filter(l=>{
+    const p=DB.people.find(x=>x.id===l.personId);
+    const mq=!q||(p?.name.toLowerCase().includes(q))||l.items.some(i=>i.title.toLowerCase().includes(q));
+    const mf=f==='all'||(f==='active'&&l.status==='active')||(f==='returned'&&l.status==='returned')||(f==='overdue'&&isOverdue(l));
+    return mq&&mf;
+  });
+  const el=document.getElementById('loansList');
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">📚</div><p>אין תוצאות</p></div>';return;}
+  const rd=DB.settings.firstDays||30;
+  el.innerHTML=list.map(l=>{
+    const p=DB.people.find(x=>x.id===l.personId);
+    const days=getLoanDays(l);
+    const over=isOverdue(l);
+    let statusBadge='';
+    if(l.status==='returned') statusBadge=`<span class="badge badge-ret">הוחזר ${fmtDate(l.returnDate)}</span>`;
+    else if(over) statusBadge=`<span class="badge badge-overdue">⚠ ${days} ימים</span>`;
+    else statusBadge=`<span class="badge badge-warn">${days} ימים</span>`;
+    return`<div class="loan-card">
+      <div class="loan-card-header">
+        <div>
+          <div class="loan-borrower">${p?.name||'—'}</div>
+          <div class="loan-date">📅 ${fmtDate(l.date)} · ${p?.phone||''}</div>
+        </div>
+        ${statusBadge}
+      </div>
+      <div class="loan-books">
+        ${l.items.map(b=>`<div class="loan-book-tag">
+          ${b.photoB64?`<img src="data:image/jpeg;base64,${b.photoB64}">`:'📖'}
+          <span>${b.title}${b.author?` — ${b.author}`:''}</span>
+        </div>`).join('')}
+      </div>
+      <div class="loan-card-footer">
+        ${l.status==='active'?`
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-green btn-sm" onclick="openReturn('${l.id}')">✅ החזיר</button>
+            ${over?`<button class="btn btn-wa btn-sm" onclick="sendWALoan('${l.id}')">📱 WA</button>`:''}
+            ${over&&!l.remindersStop?`<button class="btn btn-ghost btn-sm" onclick="toggleReminders('${l.id}',true)">⏹ עצור תזכורות</button>`:''}
+            ${over&&l.remindersStop?`<button class="btn btn-gold btn-sm" onclick="toggleReminders('${l.id}',false)">▶ חזר תזכורות</button>`:''}
+          </div>
+          ${l.remindersSent>0?`<span class="sched-badge">📤 ${l.remindersSent} הודעות</span>`:''}
+        `:`<span style="color:var(--text3);font-size:0.8rem;">הוחזר</span>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleReminders(loanId, stop){
+  const l=DB.loans.find(x=>x.id===loanId);
+  if(l){ l.remindersStop=stop; save(); renderAll(); }
+}
+
+// RETURN
+function openReturn(loanId){
+  returnLoanId=loanId;
+  const l=DB.loans.find(x=>x.id===loanId);
+  const p=DB.people.find(x=>x.id===l.personId);
+  document.getElementById('returnBody').innerHTML=`
+    <p style="margin-bottom:14px;font-size:0.9rem;">
+      <strong>${p?.name}</strong> מחזיר ${l.items.length} ספר/ים:
+      <span style="color:var(--text2)">${l.items.map(i=>i.title).join(', ')}</span>
+    </p>
+    <div class="form-group">
+      <label>תאריך החזרה</label>
+      <input type="date" id="ret-date" value="${todayStr()}">
+    </div>`;
+  openModal('returnModal');
+}
+function doReturn(){
+  const l=DB.loans.find(x=>x.id===returnLoanId);
+  if(!l)return;
+  l.status='returned';
+  l.returnDate=document.getElementById('ret-date').value;
+  save(); closeModal('returnModal'); renderAll();
+}
+
+// ══════════════════════════════════════════
+//  WHATSAPP / NOTIFICATIONS
+// ══════════════════════════════════════════
+function buildWAMsg(loan, person){
+  const days=getLoanDays(loan);
+  const books=loan.items.map(i=>i.title).join(', ');
+  let msg=DB.settings.tmpl||'שלום {שם}! ההשאלה של "{ספרים}" היא כבר {ימים} ימים. נשמח אם תוחזר בקרוב 📚';
+  return msg.replace('{שם}',person.name).replace('{ספרים}',books).replace('{ימים}',days);
+}
+
+function sendWALoan(loanId){
+  const l=DB.loans.find(x=>x.id===loanId);
+  const p=DB.people.find(x=>x.id===l.personId);
+  if(!p)return;
+  const msg=buildWAMsg(l,p);
+  const phone=p.phone.replace(/[^0-9]/g,'');
+  const intl=phone.startsWith('0')?'972'+phone.slice(1):phone;
+  window.open(`https://wa.me/${intl}?text=${encodeURIComponent(msg)}`,'_blank');
+  // log
+  l.remindersSent=(l.remindersSent||0)+1;
+  l.lastReminderAt=new Date().toISOString();
+  DB.notifications.push({
+    id:Date.now().toString(), loanId, personId:p.id,
+    personName:p.name, books:l.items.map(i=>i.title).join(', '),
+    sentAt:new Date().toISOString(), type:'whatsapp'
+  });
+  save(); renderAll();
+}
+
+function sendWA(personId, loanId, books, days){
+  const p=DB.people.find(x=>x.id===personId);
+  if(!p)return;
+  const phone=p.phone.replace(/[^0-9]/g,'');
+  const intl=phone.startsWith('0')?'972'+phone.slice(1):phone;
+  const msg=`שלום ${p.name}! 📚`;
+  window.open(`https://wa.me/${intl}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+// ══════════════════════════════════════════
+//  REMINDERS PAGE
+// ══════════════════════════════════════════
+function renderReminders(){
+  const overdue=DB.loans.filter(l=>isOverdue(l));
+  const el=document.getElementById('remList');
+  if(!overdue.length){el.innerHTML='<div class="empty"><div class="ei">🎉</div><p>אין תזכורות ממתינות</p></div>';}
+  else{
+    el.innerHTML=overdue.map(l=>{
+      const p=DB.people.find(x=>x.id===l.personId);
+      const books=l.items.map(i=>i.title).join(', ');
+      const days=getLoanDays(l);
+      const needs=needsWeeklyReminder(l);
+      return`<div class="overdue-card">
+        <div class="overdue-info">
+          <div class="overdue-name">${p?.name||'—'}</div>
+          <div class="overdue-detail">${books} · ${days} ימים</div>
+          ${l.remindersStop?'<span class="badge badge-ret" style="margin-top:4px">תזכורות עצורות</span>':
+            needs?'<span class="badge badge-overdue" style="margin-top:4px">⏰ דורש שליחה</span>':
+            `<span class="badge badge-warn" style="margin-top:4px">נשלח לפני ${daysBetween(l.lastReminderAt)} ימים</span>`
+          }
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+          <button class="btn btn-wa btn-sm" onclick="sendWALoan('${l.id}')">📱 שלח WA</button>
+          ${!l.remindersStop?`<button class="btn btn-ghost btn-sm" onclick="toggleReminders('${l.id}',true)">⏹ עצור</button>`:
+            `<button class="btn btn-gold btn-sm" onclick="toggleReminders('${l.id}',false)">▶ חדש</button>`}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // log
+  const logEl=document.getElementById('notifLog');
+  if(!DB.notifications.length){logEl.innerHTML='<div class="empty"><p>לא נשלחו הודעות</p></div>';return;}
+  const sorted=[...DB.notifications].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt));
+  logEl.innerHTML=sorted.map(n=>`
+    <div class="notif-item">
+      <div class="notif-dot"></div>
+      <div class="notif-text"><strong>${n.personName}</strong> — ${n.books}</div>
+      <div class="notif-time">${fmtDate(n.sentAt)}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════
+function renderDashboard(){
+  const active=DB.loans.filter(l=>l.status==='active');
+  const overdue=active.filter(l=>isOverdue(l));
+  document.getElementById('s-active').textContent=active.length;
+  document.getElementById('s-overdue').textContent=overdue.length;
+  document.getElementById('s-books').textContent=DB.books.length;
+  document.getElementById('s-notifs').textContent=DB.notifications.length;
+  document.getElementById('activeBadge').textContent=active.length;
+  document.getElementById('overdBadge').textContent=overdue.length;
+
+  const oel=document.getElementById('db-overdue');
+  if(!overdue.length){oel.innerHTML='<div class="empty"><div class="ei">✅</div><p>אין השאלות שעברו את הזמן</p></div>';}
+  else{
+    oel.innerHTML=overdue.slice(0,5).map(l=>{
+      const p=DB.people.find(x=>x.id===l.personId);
+      return`<div class="overdue-card">
+        <div class="overdue-info">
+          <div class="overdue-name">${p?.name||'—'}</div>
+          <div class="overdue-detail">${l.items.map(i=>i.title).join(', ')} · ${getLoanDays(l)} ימים</div>
+        </div>
+        <button class="btn btn-wa btn-sm" onclick="sendWALoan('${l.id}')">📱 WA</button>
+      </div>`;
+    }).join('');
+  }
+
+  const rel=document.getElementById('db-recent');
+  const recent=active.sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,6);
+  if(!recent.length){rel.innerHTML='<div class="empty"><div class="ei">📚</div><p>אין השאלות פעילות</p></div>';return;}
+  rel.innerHTML=recent.map(l=>{
+    const p=DB.people.find(x=>x.id===l.personId);
+    const days=getLoanDays(l);
+    return`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div>
+        <strong style="font-size:0.88rem">${p?.name||'—'}</strong>
+        <div style="font-size:0.78rem;color:var(--text2)">${l.items.map(i=>i.title).join(', ')}</div>
+      </div>
+      <div style="text-align:left;">
+        <span class="badge ${isOverdue(l)?'badge-overdue':'badge-warn'}">${days}י</span>
+        <div style="font-size:0.72rem;color:var(--text3);margin-top:2px;">${fmtDate(l.date)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════
+function saveSettings(){
+  DB.settings.firstDays=parseInt(document.getElementById('set-days').value)||30;
+  DB.settings.repeatDays=parseInt(document.getElementById('set-repeat').value)||7;
+  DB.settings.tmpl=document.getElementById('set-tmpl').value;
+  save(); alert('✅ הגדרות נשמרו');
+}
+
+function saveAIKey(){
+  const k=document.getElementById('ai-key').value.trim();
+  if(!k.startsWith('sk-ant-')){ alert('מפתח לא תקין – חייב להתחיל ב-sk-ant-'); return; }
+  aiKey=k;
+  localStorage.setItem('lib_aikey',k);
+  setAIStatus(true);
+  alert('✅ מפתח AI נשמר');
+}
+function setAIStatus(ok){
+  const el=document.getElementById('aiStatus');
+  el.innerHTML=ok?'<div class="dot dot-ok"></div><span>Claude AI מוגדר ✅</span>':'<div class="dot dot-no"></div><span>לא הוגדר</span>';
+}
+
+// ══════════════════════════════════════════
+//  FIREBASE
+// ══════════════════════════════════════════
+function connectFirebase(){
+  const key=document.getElementById('fb-key').value.trim();
+  const proj=document.getElementById('fb-project').value.trim();
+  const dom=document.getElementById('fb-domain').value.trim();
+  if(!key||!proj){ alert('נא למלא לפחות API Key ו-Project ID'); return; }
+  setFBStatus('wait','מתחבר...');
+  const s=document.createElement('script');
+  s.type='module';
+  s.textContent=`
+    import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import{getFirestore,collection,onSnapshot,doc,setDoc,deleteDoc,getDocs}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    try{
+      const app=initializeApp({apiKey:'${key}',authDomain:'${dom||proj+".firebaseapp.com"}',projectId:'${proj}'});
+      const db=getFirestore(app);
+      window._fdb=db; window._fops={collection,onSnapshot,doc,setDoc,deleteDoc,getDocs};
+      window.dispatchEvent(new CustomEvent('fb-ok'));
+    }catch(e){window.dispatchEvent(new CustomEvent('fb-err',{detail:e.message}));}
+  `;
+  document.head.appendChild(s);
+  window.addEventListener('fb-ok',()=>{ setFBStatus('ok','מחובר ל-Firebase ✅'); startFBSync(); },{once:true});
+  window.addEventListener('fb-err',e=>{ setFBStatus('no','שגיאה: '+e.detail); },{once:true});
+}
+function setFBStatus(s,msg){
+  const el=document.getElementById('fbStatusLine');
+  el.innerHTML=`<div class="dot dot-${s==='ok'?'ok':s==='no'?'no':'wait'}"></div><span>${msg}</span>`;
+  document.getElementById('fbStatusBadge').textContent=s==='ok'?'🔥 Firebase':s==='no'?'❌ שגיאה':'⟳ מתחבר';
+}
+function localMode(){ setFBStatus('no','מצב מקומי – נשמר בדפדפן בלבד'); }
+function startFBSync(){
+  const db=window._fdb, {collection,onSnapshot}=window._fops;
+  ['people','books','loans','notifications'].forEach(col=>{
+    onSnapshot(collection(db,col),snap=>{
+      DB[col]=snap.docs.map(d=>({id:d.id,...d.data()}));
+      save(); renderAll();
+    });
+  });
+}
+
+// ══════════════════════════════════════════
+//  EXPORT
+// ══════════════════════════════════════════
+function exportCSV(){
+  const rows=[['שם שואל','טלפון','ספרים','סופרים','תאריך השאלה','סטטוס','ימים','הודעות']];
+  DB.loans.forEach(l=>{
+    const p=DB.people.find(x=>x.id===l.personId);
+    rows.push([p?.name,p?.phone,l.items.map(i=>i.title).join('|'),l.items.map(i=>i.author).join('|'),l.date,l.status,getLoanDays(l),l.remindersSent||0]);
+  });
+  const csv='\uFEFF'+rows.map(r=>r.join(',')).join('\n');
+  dl(new Blob([csv],{type:'text/csv'}),'השאלות.csv');
+}
+function exportJSON(){
+  const exp={...DB}; // remove photo blobs for size
+  exp.loans=exp.loans.map(l=>({...l,items:l.items.map(i=>({...i,photoB64:i.photoB64?'[photo]':null}))}));
+  dl(new Blob([JSON.stringify(exp,null,2)],{type:'application/json'}),'library.json');
+}
+function dl(blob,name){ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click(); }
+
+// ══════════════════════════════════════════
+//  RENDER ALL
+// ══════════════════════════════════════════
+function renderAll(){
+  renderDashboard();
+  renderLoans();
+  renderBooks();
+  renderPeople();
+}
+
+init();
+</script>
+</body>
+</html>
