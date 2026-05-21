@@ -8,6 +8,15 @@
 <meta name="apple-mobile-web-app-title" content="ספריית הבית">
 <meta name="theme-color" content="#1a1207">
 <link rel="manifest" href="/home-library/manifest.json">
+<script>
+// Force clear any cached service workers and old cache
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.unregister());
+  });
+  caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+}
+</script>
 <title>ספריית הבית 📚</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
